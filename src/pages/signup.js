@@ -1,10 +1,48 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { userCredentials } from "../store/userSlice";
 const Signup = () => {
   const { register, handleSubmit } = useForm();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const onSubmit = (data) => console.log(data);
+  const dispatch = useDispatch();
+
+  const handleRegister = async (name, email, password) => {
+    try {
+      const res = await fetch("http://127.0.0.1:8080/api/v1/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+      
+      dispatch(userCredentials(data.id));
+
+      console.log(data);
+
+      // console.log(data);
+    } catch (error) {
+      console.log(error);
+      setError(true);
+      setErrorMessage(error.message);
+    }
+  };
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.email;
+    const name = data.name;
+
+    handleRegister(name, email, password);
+  };
 
   return (
     <section className="page-section max-w-[740px] px-10 py-5 m-auto bg-primary rounded-3xl text-white">
@@ -19,7 +57,7 @@ const Signup = () => {
           </label>
           <input
             type="text"
-            {...register("email")}
+            {...register("name")}
             id="text"
             className=" border bg-[#E1E1E1] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             placeholder="Your Name"
@@ -44,7 +82,7 @@ const Signup = () => {
         </div>
         <div className="mb-6">
           <label
-            htmlFor="email"
+            htmlFor="password"
             className="block mb-2 text-sm font-medium text-[#E1E1E1] "
           >
             Your Password
@@ -52,7 +90,7 @@ const Signup = () => {
           <input
             type="password"
             {...register("password")}
-            id="email"
+            id="password"
             className=" border bg-[#E1E1E1] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             placeholder="more than 6 characters"
             required
@@ -69,6 +107,11 @@ const Signup = () => {
         </div>
       </form>
 
+      {error && (
+        <div className="error mt-5 px-4 py-2 bg-red-900 text-white rounded-xl">
+          {errorMessage}
+        </div>
+      )}
       <Link href="/login">
         <p className="text-sm mt-5">
           Have an Account? <span className="font-bold">Log In</span>

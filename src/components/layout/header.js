@@ -10,11 +10,14 @@ const Navbar = () => {
 
   const [cartCount, setCartCount] = useState(0);
 
-  const cartItem = useSelector((state) => state.cart);
+  const cartItem = useSelector((state) => state.c.cart);
 
   // setTotal(cartItem.map((item) => item.quantity));
 
-  total = cartItem.map((item) => item.quantity);
+  if (cartItem.length > 0) {
+    total = cartItem.map((item) => item.quantity);
+  }
+  // total = cartItem.map((item) => item.quantity);
 
   // total.forEach((quantity) => {
   //   cartCount = cartCount + quantity;
@@ -28,7 +31,11 @@ const Navbar = () => {
   const sumOfItems = (array) => {
     let sum = 0;
 
-    array.forEach((item) => {
+    // array.forEach((item) => {
+    //   sum += item;
+    // });
+
+    Array.from(array).forEach((item) => {
       sum += item;
     });
 
