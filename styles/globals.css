@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+ul {
+  list-style-type: none;
+}
+button {
+  border: none;
+}
+
+body {
+  font-family: "Inter", Verdana, Geneva, Tahoma, sans-serif;
+}
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-section {
+  margin: 24px 20px;
+}
+
+@media (min-width: 768px) {
+  .page-section {
+    margin: 50px auto;
+  }
+}
