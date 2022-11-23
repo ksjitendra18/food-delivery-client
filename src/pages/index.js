@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Features from "../components/Homepage/features";
-import Trending from "../components/Homepage/trending";
-import Button from "../components/UI/Button";
+import Features from "../components/homepage/features";
+import Trending from "../components/homepage/trending";
+import Button from "../components/ui/button";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
   return (
