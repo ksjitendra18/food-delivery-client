@@ -27,7 +27,7 @@ const Cart = () => {
                 <CartItem key={item.id} item={item} />
               ))}
             </div>
-            <div className="md:sticky md:top-28 bg-primary text-white flex-none w-64 h-[240px] rounded-2xl">
+            <div className="md:sticky md:top-28 bg-primary text-white flex-none w-64 h-[300px] rounded-2xl">
               <OrderPrice />
             </div>
           </div>

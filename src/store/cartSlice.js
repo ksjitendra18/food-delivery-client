@@ -4,8 +4,33 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cart: [],
+    currentUser: null,
+    userRole: "user",
+    userId: null,
+    // userIsLoggedIn: false
   },
   reducers: {
+    setCredential: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    setRole: (state, action) => {
+      state.userRole = action.payload;
+    },
+    setUserId: (state, action) => {
+      state.userId = action.payload;
+    },
+    logout: (state, action) => {
+      state.currentUser = [];
+      state.userId = null;
+      state.userRole = "user";
+    },
+
+    authStatus: () => {
+      const userId = state.userId;
+
+      const userIsLoggedIn = userId !== null;
+    },
+
     addToCart: (state, action) => {
       const itemInCart = state.cart.find(
         (item) => item.id === action.payload.id
@@ -39,5 +64,13 @@ const cartSlice = createSlice({
 });
 
 export const cartReducer = cartSlice.reducer;
-export const { addToCart, increaseQuantity, decreaseQuantity, removeItem } =
-  cartSlice.actions;
+export const {
+  setCredential,
+  setUserId,
+  setRole,
+  logout,
+  addToCart,
+  increaseQuantity,
+  decreaseQuantity,
+  removeItem,
+} = cartSlice.actions;

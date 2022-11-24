@@ -1,9 +1,26 @@
-import React from 'react'
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Admin = () => {
-  return (
-    <div>Admin</div>
-  )
-}
+  const router = useRouter();
+  const userRole = useSelector((state) => state.userRole);
+  const [userIsAdmin, setUserIsAdmin] = useState(false);
+  console.log(userRole);
+  // const redirectToHome = () => router.push("/login");
 
-export default Admin
+  useEffect(() => {
+    if (userRole !== "admin") {
+      router.push("/");
+    }
+    setUserIsAdmin(true);
+  }, []);
+
+  if (userIsAdmin) {
+    return <div>Admin</div>;
+  } else {
+    return null;
+  }
+};
+
+export default Admin;
