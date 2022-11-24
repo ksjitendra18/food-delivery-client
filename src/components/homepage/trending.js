@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { MdAddShoppingCart } from "react-icons/md";
 import TrendingCard from "../ui/trendingCard";
@@ -49,7 +50,10 @@ const Trending = () => {
 
       <div className="flex justify-center items-center mt-12">
         <button className="text-xl font-bold border-solid border-4 border-white text-white rounded-full px-9 py-4">
+       <Link href="/order">
+
           View All Items
+       </Link>
         </button>
       </div>
     </section>

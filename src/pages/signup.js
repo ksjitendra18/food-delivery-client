@@ -1,14 +1,16 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { userCredentials } from "../store/userSlice";
+import { setCredential, setRole, setUserId } from "../store/cartSlice";
 const Signup = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleRegister = async (name, email, password) => {
     try {
@@ -24,11 +26,15 @@ const Signup = () => {
       });
 
       const data = await res.json();
-      
-      dispatch(userCredentials(data.id));
+
+      dispatch(setCredential(data));
+
+      dispatch(setUserId(data.id));
+      dispatch(setRole(data.role));
 
       console.log(data);
 
+      router.push("/");
       // console.log(data);
     } catch (error) {
       console.log(error);
@@ -38,7 +44,7 @@ const Signup = () => {
   };
   const onSubmit = (data) => {
     const email = data.email;
-    const password = data.email;
+    const password = data.password;
     const name = data.name;
 
     handleRegister(name, email, password);
