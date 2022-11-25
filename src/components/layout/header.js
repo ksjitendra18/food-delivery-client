@@ -16,7 +16,7 @@ const Navbar = () => {
   const [authStatus, setAuthStatus] = useState(false);
   const [userAdmin, setUserAdmin] = useState(false);
 
-  console.log(userIsLoggedIn);
+  // console.log(userIsLoggedIn);
 
   useEffect(() => {
     if (userId !== null) {
@@ -50,7 +50,7 @@ const Navbar = () => {
   // });
 
   useEffect(() => {
-    console.log("use effect fired");
+    // console.log("use effect fired");
     sumOfItems(total);
   }, [cartItem, total]);
 
@@ -65,13 +65,13 @@ const Navbar = () => {
       sum += item;
     });
 
-    console.log(sum);
+    // console.log(sum);
     setCartCount(sum);
 
     return sum;
   };
 
-  console.log("total cart quantity", cartCount);
+  // console.log("total cart quantity", cartCount);
   const [nav, setNav] = useState(false);
 
   const handleClick = () => setNav((prev) => !prev);
@@ -106,7 +106,7 @@ const Navbar = () => {
             {userAdmin && (
               <>
                 <li className="p-4">
-                  <Link href="/">All Items</Link>
+                  <Link href="/admin">All Items</Link>
                 </li>
                 <li className="p-4">
                   <Link href="/">All Orders</Link>
@@ -134,7 +134,7 @@ const Navbar = () => {
               <li
                 className="p-4 cursor-pointer"
                 onClick={() => {
-                  console.log("logout");
+                  // console.log("logout");
                   dispatch(logout());
                 }}
               >
@@ -172,7 +172,7 @@ const Navbar = () => {
           {userAdmin && (
             <>
               <li className="p-4" onClick={handleClick}>
-                <Link href="/">All Items</Link>
+                <Link href="/admin">All Items</Link>
               </li>
               <li className="p-4" onClick={handleClick}>
                 <Link href="/">All Orders</Link>
@@ -200,7 +200,7 @@ const Navbar = () => {
             <li
               className="p-4 cursor-pointer"
               onClick={() => {
-                console.log("logout");
+                // console.log("logout");
                 dispatch(logout());
               }}
             >
