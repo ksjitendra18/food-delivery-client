@@ -1,3 +1,5 @@
+import { data } from "autoprefixer";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -78,8 +80,19 @@ const EditPage = () => {
     console.log(resData);
   };
 
+  let availableSelectValue = "yes";
+  let featuredSelectValue = "no";
+
+  if (formData !== null) {
+    availableSelectValue = formData.is_available === true ? "yes" : "no";
+    featuredSelectValue = formData.is_featured === true ? "yes" : "no";
+  }
+
   return (
     <section className="md:my-7 lg:px-28 md:px-18  p-4">
+      <Head>
+        <title>Edit Product</title>
+      </Head>
       <h2 className="text-primary text-3xl font-bold mb-10">Edit Item</h2>
 
       {formData !== null ? (
@@ -193,6 +206,7 @@ const EditPage = () => {
                   name="is_available"
                   {...register("is_available")}
                   id="is_available"
+                  defaultValue={availableSelectValue}
                   className=" border bg-[#f8f8f8] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 >
                   <option value="yes">Yes</option>
@@ -208,9 +222,10 @@ const EditPage = () => {
                 </label>
 
                 <select
-                  name="is_available"
+                  name="is_featured"
                   {...register("is_featured")}
-                  id="is_available"
+                  defaultValue={featuredSelectValue}
+                  id="is_featured"
                   className=" border bg-[#f8f8f8] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 >
                   <option value="no">No</option>

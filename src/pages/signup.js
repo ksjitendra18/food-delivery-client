@@ -27,10 +27,9 @@ const Signup = () => {
 
       const data = await res.json();
 
-      dispatch(setCredential(data));
-
-      dispatch(setUserId(data.id));
-      dispatch(setRole(data.role));
+      dispatch(setCredential(data.user));
+      dispatch(setUserId(data.user?.id));
+      dispatch(setRole(data.user?.role));
 
       console.log(data);
 

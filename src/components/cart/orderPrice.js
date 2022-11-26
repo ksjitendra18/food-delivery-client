@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -15,7 +16,7 @@ const OrderPrice = () => {
   };
 
   // const [quantity, setQuantity] = useState(0);
-  // const [price, setPrice] = useState(0);
+  // const [totalPrice, setTotalPrice] = useState(0);
 
   // useEffect(() => {
   //   setQuantity(getTotal().totalQuantity);
@@ -24,6 +25,7 @@ const OrderPrice = () => {
 
   const quantity = getTotal().totalQuantity;
   const price = getTotal().totalPrice;
+  // setTotalPrice(price)
 
   return (
     <div className="pt-5 pb-10 px-3">
@@ -38,7 +40,7 @@ const OrderPrice = () => {
 
       <div className="flex justify-center mt-7">
         <button className="text-xl font-bold border-solid border-3 border-white text-white rounded-full px-7 py-2">
-          Checkout
+          <Link href="/order/checkout">Checkout</Link>
         </button>
       </div>
     </div>

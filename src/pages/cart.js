@@ -21,7 +21,7 @@ const Cart = () => {
       </Head>
       <div className="page-section lg:px-28 md:px-18 md:py-10 p-4">
         {cartItems.length > 0 ? (
-          <div className=" flex  flex-col-reverse md:flex-row  gap-10 justify-between">
+          <div className=" flex  flex-col-reverse md:flex-row  gap-10 items-center md:select-none md:justify-between">
             <div className=" flex justify-center flex-wrap gap-20">
               {cartItems.map((item) => (
                 <CartItem key={item.id} item={item} />

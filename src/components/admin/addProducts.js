@@ -167,7 +167,7 @@ const AddProducts = () => {
               <option value="uncategorised">Choose a category</option>
               <option value="veg">Veg Dishes</option>
               <option value="fastfood">Fast Food </option>
-              <option value="rice">Non Veg Dishes</option>
+              <option value="nonveg">Non Veg Dishes</option>
               <option value="icecream">Icecream</option>
               <option value="colddrinks">Cold Drinks</option>
             </select>

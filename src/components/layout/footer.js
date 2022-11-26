@@ -7,7 +7,7 @@ const Footer = () => {
 
       <footer className="bg-primary w-full h-[80px] flex items-center text-white p-6 md:p-9 md:px-11 mt-auto">
         <p className="w-full text-center">
-          &copy;{currentYear} <Link href="/">Logo</Link>
+          &copy;{currentYear} <Link href="/">Food Express</Link>
         </p>
       </footer>
    
