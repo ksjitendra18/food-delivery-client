@@ -3,12 +3,16 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addToOrdered } from "../../store/cartSlice";
-
+import { addToOrdered, clearCart } from "../../store/cartSlice";
+import { nanoid } from "nanoid";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { db } from "../../utils/firebase";
+import { useRouter } from "next/router";
 const Checkout = () => {
   const { register, handleSubmit } = useForm();
+  const router = useRouter();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const cartItems = useSelector((state) => state.cart);
   const userAuth = useSelector((state) => state.userId);
@@ -57,34 +61,51 @@ const Checkout = () => {
 
     const orderData = {
       user_id: userInfo.id,
+      userName: userInfo.name,
       address: data.address,
       phoneno: +data.phoneno,
       totalprice: total,
       itemid: cartItemId,
+      cartItems: cartItems,
+      orderStatus: "Preparing",
+      orderedTime: Timestamp.now(),
     };
     console.log(orderData);
 
+    const id = nanoid();
+
     try {
-      const res = await fetch("http://127.0.0.1:8080/api/v1/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
+      await setDoc(doc(db, userInfo.id, id), orderData);
 
-      const resData = await res.json();
-
-      console.log(resData);
+      await setDoc(doc(db, "orders", id), orderData);
     } catch (error) {
-      throw new Error(error);
-      console.log("error", error);
+      throw new Error(error, error.message);
     }
 
-    dispatch(addToOrdered(cartItems))
+    dispatch(clearCart());
+    router.push("/order/success");
 
+    // try {
+    //   const res = await fetch("http://127.0.0.1:8080/api/v1/order", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(orderData),
+    //   });
+
+    //   const resData = await res.json();
+
+    //   console.log(resData);
+    // } catch (error) {
+    //   throw new Error(error);
+    //   console.log("error", error);
+    // }
+
+    // dispatch(addToOrdered(cartItems))
   };
 
   console.log("ids", cartItemId);
   console.log(authStatus);
+  console.log(items);
   return (
     <section className="md:my-7 lg:px-28 md:px-18  p-4">
       <Head>

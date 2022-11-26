@@ -98,9 +98,14 @@ const Navbar = () => {
               <Link href="/">Home</Link>
             </li>
             {!userAdmin && (
-              <li className="p-4">
-                <Link href="/order">All Items</Link>
-              </li>
+              <>
+                <li className="p-4">
+                  <Link href="/order">All Items</Link>
+                </li>
+                <li className="p-4">
+                  <Link href="/myorders">Your Orders</Link>
+                </li>
+              </>
             )}
 
             {userAdmin && (
@@ -109,7 +114,7 @@ const Navbar = () => {
                   <Link href="/admin">All Items</Link>
                 </li>
                 <li className="p-4">
-                  <Link href="/">All Orders</Link>
+                  <Link href="/admin/orders">All Orders</Link>
                 </li>
               </>
             )}
@@ -164,18 +169,23 @@ const Navbar = () => {
             <Link href="/">Home</Link>
           </li>
           {!userAdmin && (
-            <li className="p-4" onClick={handleClick}>
-              <Link href="/order">All Items</Link>
-            </li>
+            <>
+              <li className="p-4" onClick={handleClick}>
+                <Link href="/order">All Items</Link>
+              </li>
+              <li className="p-4">
+                <Link href="/myorders">Your Orders</Link>
+              </li>
+            </>
           )}
 
           {userAdmin && (
             <>
-              <li className="p-4" onClick={handleClick}>
+              <li className="p-4">
                 <Link href="/admin">All Items</Link>
               </li>
-              <li className="p-4" onClick={handleClick}>
-                <Link href="/">All Orders</Link>
+              <li className="p-4">
+                <Link href="/admin/orders">All Orders</Link>
               </li>
             </>
           )}
