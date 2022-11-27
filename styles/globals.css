@@ -36,3 +36,12 @@ body {
     margin: 50px auto;
   }
 }
+
+.trendingcard{
+  width: 250px !important;
+ 
+}
+/* 
+div.trendingcard  img{
+  max-width: 230px !important;
+} */

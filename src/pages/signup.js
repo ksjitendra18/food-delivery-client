@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { setCredential, setRole, setUserId } from "../store/cartSlice";
 const Signup = () => {
   const { register, handleSubmit } = useForm();
@@ -13,6 +14,8 @@ const Signup = () => {
   const router = useRouter();
 
   const handleRegister = async (name, email, password) => {
+    const signupToast = toast.loading("Signing up...");
+
     try {
       const res = await fetch("http://127.0.0.1:8080/api/v1/register", {
         method: "POST",
@@ -34,9 +37,22 @@ const Signup = () => {
       console.log(data);
 
       router.push("/");
+      toast.update(signupToast, {
+        render: "Signup Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 1500,
+      });
+
       // console.log(data);
     } catch (error) {
       console.log(error);
+      toast.update(signupToast, {
+        render: "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 1500,
+      });
       setError(true);
       setErrorMessage(error.message);
     }

@@ -121,7 +121,6 @@ const OrderData = () => {
               >
                 {orderData && orderData.orderStatus}
               </span>
-            
             </div>
             <div className="flex mt-5 gap-3 items-center">
               <h3 className=" text-xl font-bold ">Delivery Address:</h3>

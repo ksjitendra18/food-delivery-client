@@ -1,12 +1,36 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MdAddShoppingCart } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addToCart } from "../store/cartSlice";
+// import { addToCart } from "../../store/cartSlice";
+import { addToCart } from "../../../store/cartSlice";
 
-const CategorySection = ({ category, title, btnText }) => {
+const CategoryPage = () => {
   const [items, setItems] = useState([]);
+  const [title, setTitle] = useState(null);
+
+  const router = useRouter();
+
+  //   { category, title, btnText }
+  const { category } = router.query;
+
+  console.log(category);
+
+  useEffect(() => {
+    if (category === "veg") {
+      setTitle("Veg");
+    }
+
+    category === "nonveg" ? setTitle("Non Veg") : "";
+    category === "fastfood" ? setTitle("Fast Food") : "";
+    category === "icecream" ? setTitle("Icecream") : "";
+    category === "colddrinks" ? setTitle("Cold Drink") : "";
+  }, [category]);
+
+  //   const title = "Okay";
+
+  const btnText = "Click";
   const fetchData = async () => {
     const res = await fetch(
       `http://localhost:8080/api/v1/itemsbycategory/?keyword=${category}`
@@ -18,8 +42,10 @@ const CategorySection = ({ category, title, btnText }) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (category !== undefined) {
+      fetchData();
+    }
+  }, [category]);
   const dispatch = useDispatch();
   const showToastMessage = () => {
     toast.success("Item Added to Cart", {
@@ -35,12 +61,9 @@ const CategorySection = ({ category, title, btnText }) => {
 
   console.log(items);
   return (
-    <div>
+    <section className="md:my-7 lg:px-28 md:px-18  p-4">
       <div className="flex gap-5 items-center">
-        <h2 className="text-xl md:text-2xl  text-primary font-bold">{title}</h2>
-        <button className="text-white text-sm  bg-primary font-bold px-5 py-2 rounded-full">
-          <Link href={`/order/category/${category}`}> {btnText}</Link>
-        </button>
+        <h2 className="text-2xl  text-primary font-bold">{title}</h2>
       </div>
 
       <div className="flex items-center  flex-col md:flex-row gap-10 mt-20 mb-16">
@@ -72,8 +95,8 @@ const CategorySection = ({ category, title, btnText }) => {
             </div>
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 
-export default CategorySection;
+export default CategoryPage;

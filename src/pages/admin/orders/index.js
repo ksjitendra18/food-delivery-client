@@ -55,9 +55,9 @@ const MyOrders = () => {
 
   return (
     <section className="md:my-7 lg:px-28 md:px-18  p-4">
-        <Head>
-            <title>All Orders</title>
-        </Head>
+      <Head>
+        <title>All Orders</title>
+      </Head>
       <h2 className="text-primary text-3xl font-bold mb-10">Manage Orders</h2>
       <div className="card ">
         {orderData.length > 0 ? (
@@ -71,12 +71,32 @@ const MyOrders = () => {
                   {/* <p>Amount: {orders.totalprice}</p> */}
                   <p>
                     <span className="font-bold">Order Status:</span>{" "}
-                    <span
+                    {/* <span
                       className={`${
-                        orders.orderStatus === "Processing"
+                        orders.orderStatus === "Preparing"
                           ? "text-red-800"
                           : "text-green-600"
                       } font-semibold`}
+                    > */}
+                    <span
+                      className={`${
+                        orders.orderStatus === "Preparing" ? "text-red-800" : ""
+                      }
+                      
+                      ${
+                        orders.orderStatus === "Delivering"
+                          ? "text-orange-600"
+                          : ""
+                      }
+                      
+                      ${
+                        orders.orderStatus === "Delivered"
+                          ? "text-green-600"
+                          : ""
+                      } 
+                      
+                      
+                      font-semibold`}
                     >
                       {orders.orderStatus}
                     </span>

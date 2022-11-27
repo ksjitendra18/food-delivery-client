@@ -72,8 +72,15 @@ const MyOrders = () => {
                       className={`${
                         orders.orderStatus === "Preparing"
                           ? "text-red-800"
+                          : "text-orange-600"
+                      }
+                      
+                      ${
+                        orders.orderStatus === "Delivering"
+                          ? "text-orange-600"
                           : "text-green-600"
-                      } font-semibold`}
+                      }
+                      font-semibold`}
                     >
                       {orders.orderStatus}
                     </span>

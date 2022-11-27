@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import {
   doc,
   getDoc,
+  onSnapshot,
   Timestamp,
   updateDoc,
   writeBatch,
@@ -60,6 +61,7 @@ const OrderData = () => {
           setOrderData(docSnap.data());
           setItems(docSnap.data()?.cartItems);
           setTotal(docSnap.data().totalprice);
+          
           return docSnap.data();
         } else {
           // doc.data() will be undefined in this case
@@ -73,6 +75,40 @@ const OrderData = () => {
     }
     // setOrderData(fetchSingleOrderData());
   }, [orderId]);
+
+  // useEffect(() => {
+  //   const fetchSingleOrderData = async () => {
+  //     if (orderId !== undefined) {
+  //       console.log("INSIDE FN", orderId);
+  //       const docRef = await doc(db, "orders", orderId);
+  //       const docSnap = await getDoc(docRef);
+
+  //       const unsub = onSnapshot(doc(db, "orders", orderId), (doc) => {
+  //         console.log("snapshot data: ", doc.data());
+
+  //         setOrderData(docSnap.data());
+  //         setItems(docSnap.data()?.cartItems);
+  //         setTotal(docSnap.data().totalprice);
+  //       });
+
+  //       // if (docSnap.exists()) {
+  //       //   //   console.log("Document data:", docSnap.data());
+  //       //   setOrderData(docSnap.data());
+  //       //   setItems(docSnap.data()?.cartItems);
+  //       //   setTotal(docSnap.data().totalprice);
+  //       //   return docSnap.data();
+  //       // } else {
+  //       //   // doc.data() will be undefined in this case
+  //       //   console.log("No such document!");
+  //       // }
+  //     }
+  //   };
+
+  //   if (orderId !== undefined) {
+  //     fetchSingleOrderData();
+  //   }
+  //   // setOrderData(fetchSingleOrderData());
+  // }, [orderId]);
   return (
     <section className="md:my-7 lg:px-28 md:px-18  p-4">
       <Head>
@@ -119,12 +155,30 @@ const OrderData = () => {
             <div>
               <div className="flex flex-col md:flex-row mt-5 gap-3 md:items-center">
                 <h3 className="font-bold text-xl">Order Status : </h3>{" "}
-                <span
+                {/* <span
                   className={`px-5 py-2 rounded-full ${
-                    orderData && orderData.orderStatus === "Processing"
+                    orderData && orderData.orderStatus === "Preparing"
                       ? "bg-red-600"
                       : "bg-green-600"
-                  } `}
+                  } `} */}
+                <span
+                  className={`px-5 py-2 rounded-full ${
+                    orderData && orderData.orderStatus === "Preparing"
+                      ? "bg-red-800"
+                      : ""
+                  }
+                  
+                  ${
+                    orderData && orderData.orderStatus === "Delivering"
+                      ? "bg-white text-orange-600"
+                      : ""
+                  }
+                  
+                  ${
+                    orderData && orderData.orderStatus === "Delivered"
+                      ? "bg-green-600"
+                      : ""
+                  }  `}
                 >
                   {orderData && orderData.orderStatus}
                 </span>
@@ -166,6 +220,7 @@ const OrderData = () => {
 
 const ChangeOrderStatus = ({ currentStatus, userId, orderId }) => {
   console.log(currentStatus);
+  const router = useRouter()
 
   const changeStatus = async (status) => {
     const batch = writeBatch(db);
@@ -182,7 +237,7 @@ const ChangeOrderStatus = ({ currentStatus, userId, orderId }) => {
     });
 
     batch.commit();
-
+    router.reload();
     console.log(status);
   };
 
@@ -190,7 +245,7 @@ const ChangeOrderStatus = ({ currentStatus, userId, orderId }) => {
     <div className="flex gap-5 flex-wrap mt-5">
       <button
         className={` ${
-          currentStatus == "Processing" ? "bg-green-500" : ""
+          currentStatus == "Preparing" ? "bg-green-500" : ""
         } border-3 border-solid border-white px-5 py-1 rounded-full font-bold`}
         onClick={() => changeStatus("Preparing")}
       >

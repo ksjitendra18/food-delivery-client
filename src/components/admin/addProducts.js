@@ -3,21 +3,9 @@ import { useForm } from "react-hook-form";
 import { MdCloudUpload, MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-// ID          string   `json:"id" gorm:"type:varchar(255);primaryKey"`
-// Name        string   `json:"name"`
-// Price       uint     `json:"price"`
-// ShopAddress string   `json:"shop_address"`
-// ItemImage   string   `json:"item_image"`
-// Ratings     *float64 `json:"ratings" gorm:"default:0"`
-// Category    string   `json:"category"`
-// IsAvailable bool     `json:"is_available" gorm:"default:true"`
-// UserRefer   string   `json:"user_id"`
-// User        User     `gorm:"foreignkey:UserRefer"`
-// CreatedAt   time.Time
-
 const AddProducts = () => {
   const userId = useSelector((state) => state.userId);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [imageAsset, setImageAsset] = useState(null);
 
   const uploadImage = (e) => {
@@ -39,6 +27,10 @@ const AddProducts = () => {
     });
 
     const resData = await res.json();
+
+    console.log("form submitted", resData);
+
+    reset();
 
     // axios
     //   .post("http://127.0.0.1:8080/api/v1/admin/item", item)

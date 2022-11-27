@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { setCredential, setRole, setUserId } from "../store/cartSlice";
 const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -15,6 +16,7 @@ const Login = () => {
 
   const handleLogin = async (email, password) => {
     console.log(email, password);
+    const loginToast = toast.loading("Fetching Details...");
     try {
       const res = await fetch("http://127.0.0.1:8080/api/v1/login", {
         method: "POST",
@@ -36,12 +38,27 @@ const Login = () => {
       if (data.success === "false") {
         setError(true);
         setErrorMessage(data.message);
+
+        return;
       }
+
       router.push("/");
+      toast.update(loginToast, {
+        render: "Login Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 1500,
+      });
 
       // console.log(data);
     } catch (error) {
       console.log(error);
+      toast.update(loginToast, {
+        render: "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 1500,
+      });
 
       setError(true);
       setErrorMessage(error.message);

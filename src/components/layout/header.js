@@ -173,25 +173,27 @@ const Navbar = () => {
               <li className="p-4" onClick={handleClick}>
                 <Link href="/order">All Items</Link>
               </li>
-              <li className="p-4">
-                <Link href="/myorders">Your Orders</Link>
-              </li>
+              {authStatus && (
+                <li className="p-4" onClick={handleClick}>
+                  <Link href="/myorders">Your Orders</Link>
+                </li>
+              )}
             </>
           )}
 
           {userAdmin && (
             <>
-              <li className="p-4">
+              <li className="p-4" onClick={handleClick}>
                 <Link href="/admin">All Items</Link>
               </li>
-              <li className="p-4">
+              <li className="p-4" onClick={handleClick}>
                 <Link href="/admin/orders">All Orders</Link>
               </li>
             </>
           )}
 
           {!userAdmin && (
-            <li className="">
+            <li className="" >
               <Link href="/cart" onClick={handleClick}>
                 <div className="bg-white text-black py-2 px-10 rounded-full text-[17px] flex items-center">
                   Cart
@@ -212,6 +214,7 @@ const Navbar = () => {
               onClick={() => {
                 // console.log("logout");
                 dispatch(logout());
+                handleClick();
               }}
             >
               Logout

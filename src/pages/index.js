@@ -3,8 +3,8 @@ import Features from "../components/homepage/features";
 import Trending from "../components/homepage/trending";
 import Button from "../components/ui/button";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
   return (
     <div>
@@ -14,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={1500}
         hideProgressBar={false}
@@ -25,7 +25,7 @@ export default function Home() {
         draggable
         pauseOnHover={false}
         theme="light"
-      />
+      /> */}
 
       <section className="bg-primary text-white md:min-h-[400px] py-8 lg:pl-28 md:pl-16 flex justify-between md:flex-row flex-col-reverse px-5 md:px-0 ">
         <div className="left-area mt-10 md:mt-32 flex-1">
