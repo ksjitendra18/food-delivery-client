@@ -51,23 +51,36 @@ const OrderData = () => {
 
   useEffect(() => {
     const fetchSingleOrderData = async () => {
-      if (orderId !== undefined) {
-        console.log("INSIDE FN", orderId);
-        const docRef = await doc(db, "orders", orderId);
-        const docSnap = await getDoc(docRef);
+      // if (orderId !== undefined) {
+      //   console.log("INSIDE FN", orderId);
+      //   const docRef = doc(db, "orders", orderId);
+      //   const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          //   console.log("Document data:", docSnap.data());
-          setOrderData(docSnap.data());
-          setItems(docSnap.data()?.cartItems);
-          setTotal(docSnap.data().totalprice);
-          
-          return docSnap.data();
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      }
+      //   if (docSnap.exists()) {
+      //     //   console.log("Document data:", docSnap.data());
+      //     setOrderData(docSnap.data());
+      //     setItems(docSnap.data()?.cartItems);
+      //     setTotal(docSnap.data().totalprice);
+
+      //     return docSnap.data();
+      //   } else {
+      //     // doc.data() will be undefined in this case
+      //     console.log("No such document!");
+      //   }
+      // }
+
+      // if (orderId !== undefined) {
+      const unsub = onSnapshot(doc(db, "orders", orderId), (doc) => {
+        console.log("snapshot data: ", doc.data());
+
+        setOrderData(doc.data());
+        setItems(doc.data()?.cartItems);
+        setTotal(doc.data().totalprice);
+      });
+
+      return unsub;
+
+      // }
     };
 
     if (orderId !== undefined) {
@@ -220,13 +233,13 @@ const OrderData = () => {
 
 const ChangeOrderStatus = ({ currentStatus, userId, orderId }) => {
   console.log(currentStatus);
-  const router = useRouter()
+  const router = useRouter();
 
   const changeStatus = async (status) => {
     const batch = writeBatch(db);
 
-    const docRef = await doc(db, userId, orderId);
-    const adminDocRef = await doc(db, "orders", orderId);
+    const docRef = doc(db, userId, orderId);
+    const adminDocRef = doc(db, "orders", orderId);
     batch.update(docRef, {
       orderStatus: status,
       updatedAt: Timestamp.now(),
@@ -237,8 +250,8 @@ const ChangeOrderStatus = ({ currentStatus, userId, orderId }) => {
     });
 
     batch.commit();
-    router.reload();
     console.log(status);
+    // router.reload();
   };
 
   return (

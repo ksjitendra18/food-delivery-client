@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import Head from "next/head";
 import Loading from "../../components/ui/loading";
@@ -47,25 +47,32 @@ const OrderData = () => {
   useEffect(() => {
     const fetchSingleOrderData = async () => {
       console.log(userId);
-      if (userId !== null || (userId !== undefined && orderId !== undefined)) {
-        console.log("INSIDE FN", userId, orderId);
-        const docRef = await doc(db, userId, orderId);
-        const docSnap = await getDoc(docRef);
+      // if (userId !== null || (userId !== undefined && orderId !== undefined)) {
+      //   console.log("INSIDE FN", userId, orderId);
+      //   const docRef = doc(db, userId, orderId);
+      //   const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          //   console.log("Document data:", docSnap.data());
-          setOrderData(docSnap.data());
-          setItems(docSnap.data()?.cartItems);
-          setTotal(docSnap.data().totalprice);
-          return docSnap.data();
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      }
-      //    else {
-      //     return;
+      //   if (docSnap.exists()) {
+      //     //   console.log("Document data:", docSnap.data());
+      //     setOrderData(docSnap.data());
+      //     setItems(docSnap.data()?.cartItems);
+      //     setTotal(docSnap.data().totalprice);
+      //     return docSnap.data();
+      //   } else {
+      //     // doc.data() will be undefined in this case
+      //     console.log("No such document!");
       //   }
+      // }
+
+      const unsub = onSnapshot(doc(db, "orders", orderId), (doc) => {
+        console.log("snapshot data: ", doc.data());
+
+        setOrderData(doc.data());
+        setItems(doc.data()?.cartItems);
+        setTotal(doc.data().totalprice);
+      });
+
+      return unsub;
     };
 
     if (orderId !== undefined && (userId !== null || userId !== undefined)) {
@@ -114,10 +121,26 @@ const OrderData = () => {
               <h3 className="font-bold text-xl">Order Status : </h3>{" "}
               <span
                 className={`px-5 py-2 rounded-full ${
-                  orderData && orderData.orderStatus === "Processing"
+                  orderData && orderData.orderStatus === "Preparing"
                     ? "bg-red-600"
-                    : "bg-green-600"
-                } `}
+                    : ""
+                }
+                   
+                ${
+                  orderData && orderData.orderStatus === "Delivering"
+                    ? "bg-orange-600"
+                    : ""
+                }
+                
+                ${
+                  orderData && orderData.orderStatus === "Delivered"
+                    ? "bg-green-600"
+                    : ""
+                } 
+                
+                
+                
+                `}
               >
                 {orderData && orderData.orderStatus}
               </span>

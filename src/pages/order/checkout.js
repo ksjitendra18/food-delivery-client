@@ -82,7 +82,7 @@ const Checkout = () => {
       throw new Error(error, error.message);
     }
 
-    dispatch(clearCart());
+    // dispatch(clearCart());
     router.push("/order/success");
 
     // try {

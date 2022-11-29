@@ -70,16 +70,22 @@ const MyOrders = () => {
                     <span className="font-bold">Order Status:</span>{" "}
                     <span
                       className={`${
-                        orders.orderStatus === "Preparing"
-                          ? "text-red-800"
-                          : "text-orange-600"
+                        orders.orderStatus === "Preparing" ? "text-red-800" : ""
                       }
                       
+                       
                       ${
                         orders.orderStatus === "Delivering"
                           ? "text-orange-600"
-                          : "text-green-600"
+                          : ""
                       }
+                      
+                      ${
+                        orders.orderStatus === "Delivered"
+                          ? "text-green-600"
+                          : ""
+                      } 
+                    
                       font-semibold`}
                     >
                       {orders.orderStatus}
@@ -93,7 +99,7 @@ const MyOrders = () => {
           <div>
             <h2>You have not made any order yet. Order Now!!</h2>
 
-            <button class="py-3 px-8 mt-5 bg-primary text-white rounded-full">
+            <button className="py-3 px-8 mt-5 bg-primary text-white rounded-full">
               <Link href="/order">Order Now</Link>
             </button>
           </div>
