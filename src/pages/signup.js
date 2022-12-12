@@ -3,7 +3,9 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { setCredential, setRole, setUserId } from "../store/cartSlice";
+import { URL } from "../utils/URL";
 const Signup = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(false);
@@ -13,8 +15,10 @@ const Signup = () => {
   const router = useRouter();
 
   const handleRegister = async (name, email, password) => {
+    const signupToast = toast.loading("Signing up...");
+
     try {
-      const res = await fetch("http://127.0.0.1:8080/api/v1/register", {
+      const res = await fetch(`${URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -27,17 +31,41 @@ const Signup = () => {
 
       const data = await res.json();
 
-      dispatch(setCredential(data));
+      if (data.success === "false") {
+        setError(true);
+        setErrorMessage(data.message);
+        toast.update(signupToast, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+          autoClose: 1500,
+        });
+        return;
+      }
 
-      dispatch(setUserId(data.id));
-      dispatch(setRole(data.role));
+      dispatch(setCredential(data.user));
+      dispatch(setUserId(data.user?.id));
+      dispatch(setRole(data.user?.role));
 
       console.log(data);
 
       router.push("/");
+      toast.update(signupToast, {
+        render: "Signup Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 1500,
+      });
+
       // console.log(data);
     } catch (error) {
       console.log(error);
+      toast.update(signupToast, {
+        render: "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 1500,
+      });
       setError(true);
       setErrorMessage(error.message);
     }

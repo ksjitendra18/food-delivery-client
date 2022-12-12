@@ -1,0 +1,11 @@
+{
+  "name": "Icecream",
+  "price": 150,
+  "ratings": 4,
+  "shop_address": "Fresh",
+  "category": "icecream",
+  "is_available": true,
+  "is_featured": false,
+  "item_image": "i4.png",
+  "user_id": "c69a1700-25a5-4171-910b-55fc174e17ec"
+}

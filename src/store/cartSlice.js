@@ -4,6 +4,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cart: [],
+    orderedItems: [],
     currentUser: null,
     userRole: "user",
     userId: null,
@@ -42,6 +43,9 @@ const cartSlice = createSlice({
       }
       // state.cart.push({ ...action.payload, quantity: 1 ,});
     },
+    addToOrdered: (state, action) => {
+      state.orderedItems.push(action.payload);
+    },
     increaseQuantity: (state, action) => {
       const item = state.cart.find((item) => item.id === action.payload);
       item.quantity++;
@@ -60,6 +64,9 @@ const cartSlice = createSlice({
       );
       state.cart = removeItem;
     },
+    clearCart: (state, action) => {
+      state.cart = [];
+    },
   },
 });
 
@@ -73,4 +80,6 @@ export const {
   increaseQuantity,
   decreaseQuantity,
   removeItem,
+  clearCart,
+  addToOrdered,
 } = cartSlice.actions;

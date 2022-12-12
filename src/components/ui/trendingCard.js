@@ -22,7 +22,7 @@ const TrendingCard = ({ item }) => {
     <div className="trendingcard bg-white  text-black py-2 px-4 rounded-2xl shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] hover:shadow-[rgba(0,_0,_0,_0.2)_0px_60px_40px_-7px]">
       <div className="mb-5 flex justify-center">
         <img
-          src={`/${item.image}`}
+          src={`/${item.item_image}`}
           alt=""
           className="h-[200px] max-w-[200px] md:mt-[-50px] mt-[-30px]"
         />
