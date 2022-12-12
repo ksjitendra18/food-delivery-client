@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
-
+import { URL } from "../../utils/URL";
 const AdminItemsCard = ({ item }) => {
   const router = useRouter();
   const handleEdit = (itemId) => {
@@ -9,13 +9,10 @@ const AdminItemsCard = ({ item }) => {
   };
 
   const handleDelete = async (itemId) => {
-    const res = await fetch(
-      `http://localhost:8080/api/v1/admin/item/${itemId}`,
-      {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await fetch(`${URL}/admin/item/${itemId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
 
     const resData = await res.json();
     console.log(resData);

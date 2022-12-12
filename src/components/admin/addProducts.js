@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdCloudUpload, MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
-
+import { URL } from "../../utils/URL";
 const AddProducts = () => {
   const userId = useSelector((state) => state.userId);
   const { register, handleSubmit, reset } = useForm();
@@ -20,7 +20,7 @@ const AddProducts = () => {
   const handleAddItems = async (item) => {
     console.log(userId);
 
-    const res = await fetch("http://127.0.0.1:8080/api/v1/admin/item", {
+    const res = await fetch(`${URL}/admin/item`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(item),

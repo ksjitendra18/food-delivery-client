@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 // import { addToCart } from "../../store/cartSlice";
 import { addToCart } from "../../../store/cartSlice";
-
+import { URL } from "../../../utils/URL";
 const CategoryPage = () => {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState(null);
@@ -32,9 +32,7 @@ const CategoryPage = () => {
 
   const btnText = "Click";
   const fetchData = async () => {
-    const res = await fetch(
-      `http://localhost:8080/api/v1/itemsbycategory/?keyword=${category}`
-    );
+    const res = await fetch(`${URL}/itemsbycategory/?keyword=${category}`);
 
     const data = await res.json();
 

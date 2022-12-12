@@ -4,13 +4,11 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../store/cartSlice";
-
+import { URL } from "../utils/URL";
 const CategorySection = ({ category, title, btnText }) => {
   const [items, setItems] = useState([]);
   const fetchData = async () => {
-    const res = await fetch(
-      `http://localhost:8080/api/v1/itemsbycategory/?keyword=${category}`
-    );
+    const res = await fetch(`${URL}/itemsbycategory/?keyword=${category}`);
 
     const data = await res.json();
 

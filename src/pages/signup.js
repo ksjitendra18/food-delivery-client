@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setCredential, setRole, setUserId } from "../store/cartSlice";
+import { URL } from "../utils/URL";
 const Signup = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(false);
@@ -17,7 +18,7 @@ const Signup = () => {
     const signupToast = toast.loading("Signing up...");
 
     try {
-      const res = await fetch("http://127.0.0.1:8080/api/v1/register", {
+      const res = await fetch(`${URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -29,6 +30,18 @@ const Signup = () => {
       });
 
       const data = await res.json();
+
+      if (data.success === "false") {
+        setError(true);
+        setErrorMessage(data.message);
+        toast.update(signupToast, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+          autoClose: 1500,
+        });
+        return;
+      }
 
       dispatch(setCredential(data.user));
       dispatch(setUserId(data.user?.id));

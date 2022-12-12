@@ -128,7 +128,7 @@ const OrderData = () => {
         <title> Order Details</title>
       </Head>
       <h2 className="text-primary text-3xl font-bold mb-10">
-        Your Order Details
+        Order Details
       </h2>
       {/* 
       <Suspense fallback={<Loading />}>

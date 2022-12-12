@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-
+import { URL } from "../../../utils/URL";
 const EditPage = () => {
   const router = useRouter();
   const { itemId } = router.query;
@@ -15,7 +15,7 @@ const EditPage = () => {
   const [formData, setFormData] = useState(null);
 
   const fetchItemDetails = async () => {
-    const res = await fetch(`http://127.0.0.1:8080/api/v1/item/${itemId}`);
+    const res = await fetch(`${URL}/item/${itemId}`);
 
     const resData = await res.json();
 
@@ -67,14 +67,11 @@ const EditPage = () => {
 
     console.log("THIS IS EDITED ITEM", editedItem);
 
-    const res = await fetch(
-      `http://localhost:8080/api/v1/admin/updateitem/${itemId}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editedItem),
-      }
-    );
+    const res = await fetch(`${URL}/admin/updateitem/${itemId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editedItem),
+    });
 
     const resData = await res.json();
     console.log(resData);
